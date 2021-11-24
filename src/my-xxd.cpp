@@ -78,11 +78,11 @@ bool write_out_file(const std::vector<unsigned int> &data, const struct out_name
     ss << "unsigned char " << labels.name << "_" << labels.ext << "[] = {";
     for(std::size_t i = 0; i < data.size(); ++i)
     {
-        ss << std::setfill('0') << std::setw(2) << "0x" << std::hex << (0xff & data[i]) << ", ";
         if(i % 12 == 0)
         {
             ss << "\n\t";
         }
+        ss << std::setfill('0') << std::setw(2) << "0x" << std::hex << (0xff & data[i]) << ", ";
         ofs.write(ss.str().c_str(), ss.str().length());
         ss.str(std::string());
         ss.clear();
