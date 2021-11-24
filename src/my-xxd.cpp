@@ -42,9 +42,9 @@ std::vector<unsigned int> convert_in_file(const std::string src)
     unsigned int file_size = static_cast<unsigned int>(ifs.tellg()) + 1;
     ifs.seekg(0, std::ifstream::beg);
 
-    std::vector<unsigned int> values(file_size);
-    std::vector<unsigned int>::iterator it = values.begin();
-    for(it = values.begin(); ifs.good() && it != values.end(); ++it)
+    std::vector<unsigned int> data(file_size);
+    std::vector<unsigned int>::iterator it = data.begin();
+    for(it = data.begin(); ifs.good() && it != data.end(); ++it)
     {
         *it = static_cast<unsigned int>(ifs.get());
     }
@@ -59,10 +59,10 @@ std::vector<unsigned int> convert_in_file(const std::string src)
     data.pop_back(); // Remove 0xff from end of data
 
     ifs.close();
-    return values;
+    return data;
 }
 
-bool write_out_file(const std::vector<unsigned int> &values, const struct out_name labels, const std::string dst)
+bool write_out_file(const std::vector<unsigned int> &data, const struct out_name labels, const std::string dst)
 {
     std::ofstream ofs;
     ofs.open(dst, std::ofstream::out | std::ofstream::trunc);
@@ -76,10 +76,11 @@ bool write_out_file(const std::vector<unsigned int> &values, const struct out_na
     ss << "#ifndef __" << labels.name << "_" << labels.ext << "_HPP\n";
     ss << "#define __" << labels.name << "_" << labels.ext << "_HPP\n\n";
     ss << "unsigned char " << labels.name << "_" << labels.ext << "[] = {\n\t";
-    for(std::size_t i = 0; i < values.size(); ++i)
+    for(std::size_t i = 0; i < data.size(); ++i)
     {
-        ss << std::setfill('0') << std::setw(2) << "0x" << std::hex << (0xff & values[i]);
-        if(i + 1 != values.size())
+        ss << std::setfill('0') << std::setw(2) << "0x" << std::hex << (0xff & data[i]);
+        std::cout << "Adding: " << ss.str() << std::endl;
+        if(i + 1 != data.size())
         {
             ss << ", ";
         }
@@ -91,7 +92,7 @@ bool write_out_file(const std::vector<unsigned int> &values, const struct out_na
         ss.str(std::string());
         ss.clear();
     }
-    ss << "\n};\n\nunsigned int " << labels.name << "_" << labels.ext << "_LEN = " << std::dec << values.size() << ";\n\n";
+    ss << "\n};\n\nunsigned int " << labels.name << "_" << labels.ext << "_LEN = " << std::dec << data.size() << ";\n\n";
     ss << "#endif /* __" << labels.name << "_" << labels.ext << "_HPP */\n";
     ofs.write(ss.str().c_str(), ss.str().length());
     ofs.close();
