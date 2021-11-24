@@ -43,7 +43,7 @@ std::vector<unsigned int> convert_in_file(const std::string src)
     ifs.seekg(0, std::ifstream::beg);
 
     std::vector<unsigned int> data(file_size);
-    std::vector<unsigned int>::iterator it = data.begin();
+    std::vector<unsigned int>::iterator it;
     for(it = data.begin(); ifs.good() && it != data.end(); ++it)
     {
         *it = static_cast<unsigned int>(ifs.get());
