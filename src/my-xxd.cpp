@@ -75,16 +75,11 @@ bool write_out_file(const std::vector<unsigned int> &data, const struct out_name
     std::stringstream ss;
     ss << "#ifndef __" << labels.name << "_" << labels.ext << "_HPP\n";
     ss << "#define __" << labels.name << "_" << labels.ext << "_HPP\n\n";
-    ss << "unsigned char " << labels.name << "_" << labels.ext << "[] = {\n\t";
+    ss << "unsigned char " << labels.name << "_" << labels.ext << "[] = {";
     for(std::size_t i = 0; i < data.size(); ++i)
     {
-        ss << std::setfill('0') << std::setw(2) << "0x" << std::hex << (0xff & data[i]);
-        std::cout << "Adding: " << ss.str() << std::endl;
-        if(i + 1 != data.size())
-        {
-            ss << ", ";
-        }
-        if(i > 0 && i % 12 == 0)
+        ss << std::setfill('0') << std::setw(2) << "0x" << std::hex << (0xff & data[i]) << ", ";
+        if(i % 12 == 0)
         {
             ss << "\n\t";
         }
@@ -92,6 +87,7 @@ bool write_out_file(const std::vector<unsigned int> &data, const struct out_name
         ss.str(std::string());
         ss.clear();
     }
+    ofs.seekp((long)ofs.tellp() - 4); // Move from position (eof+1) to the position before ", " so we can remove those two chars
     ss << "\n};\n\nunsigned int " << labels.name << "_" << labels.ext << "_LEN = " << std::dec << data.size() << ";\n\n";
     ss << "#endif /* __" << labels.name << "_" << labels.ext << "_HPP */\n";
     ofs.write(ss.str().c_str(), ss.str().length());
