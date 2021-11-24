@@ -56,6 +56,8 @@ std::vector<unsigned int> convert_in_file(const std::string src)
         return std::vector<unsigned int>();
     }
 
+    data.pop_back(); // Remove 0xff from end of data
+
     ifs.close();
     return values;
 }
