@@ -1,1 +1,1 @@
-## This directory contains img_to_hpp binary
+## This directory contains binary
