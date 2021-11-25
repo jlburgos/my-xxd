@@ -12,13 +12,8 @@
  * 
  */
 
-#include <iostream>
-#include <fstream>
 #include <string>
 #include <vector>
-#include <sstream>
-#include <iomanip>
-#include <algorithm>
 
 struct out_name {
     std::string name;
