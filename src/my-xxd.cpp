@@ -19,18 +19,21 @@
 
 struct out_name get_out_name(const std::string src)
 {
-    std::string src2 = src;
-    for(std::size_t i = 0; i < src2.length(); ++i)
+    std::string src_copy = src;
+    for(std::size_t i = 0; i < src_copy.length(); ++i)
     {
-        src2[i] == '\\' ? src2[i] = '/' : src2[i];
+        src_copy[i] == '\\' ? src_copy[i] = '/' : src_copy[i];
     }
-    std::size_t pos1 = src2.find_last_of("/");
-    std::size_t pos2 = src2.find_last_of(".");
 
-    std::string name = src2.substr(pos1+1,pos2-(pos1+1));
-    std::string ext = src2.substr(pos2+1,src.length()-(pos2+1));
+    std::size_t pos1 = src_copy.find_last_of("/");
+    std::size_t pos2 = src_copy.find_last_of(".");
+
+    std::string name = src_copy.substr(pos1+1, pos2-(pos1+1));
+    std::string ext  = src_copy.substr(pos2+1, src_copy.length()-(pos2+1));
+
     std::transform(name.begin(), name.end(), name.begin(), [](unsigned char ch){return std::toupper(ch);});
-    std::transform(ext.begin(), ext.end(), ext.begin(), [](unsigned char ch){return std::toupper(ch);});
+    std::transform(ext.begin(),  ext.end(),  ext.begin(),  [](unsigned char ch){return std::toupper(ch);});
+
     return {name,ext};
 }
 
