@@ -20,7 +20,7 @@ struct out_name {
     std::string ext;
 };
 
-struct out_name get_out_name(const std::string src);
+struct out_name get_out_name(std::string src);
 std::vector<unsigned int> convert_in_file(const std::string src);
 bool write_out_file(const std::vector<unsigned int> &values, const struct out_name labels, const std::string dst);
 
