@@ -23,13 +23,13 @@ int main(int argc, char *argv[])
     std::string src = argv[1];
     std::string dst = argv[2];
 
-    dataptr data;
-    int rc = convert_in_file(data, src);
+    vdataptr<std::size_t> vdata;
+    int rc = convert_in_file(vdata, src);
     if(rc != 0)
     {
         return rc;
     }
     OutputName name = get_out_name(src);
-    return write_out_file(data, name, dst);
+    return write_out_file(vdata, name, dst);
 }
 

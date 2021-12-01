@@ -36,7 +36,7 @@ OutputName get_out_name(std::string src)
     return {name,ext};
 }
 
-int convert_in_file(dataptr &data, const std::string src)
+int convert_in_file(vdataptr<std::size_t> &vdata, const std::string src)
 {
     std::ifstream ifs;
     ifs.open(src, std::ifstream::in | std::ifstream::binary);
@@ -50,7 +50,7 @@ int convert_in_file(dataptr &data, const std::string src)
     std::size_t file_size = static_cast<std::size_t>(ifs.tellg()) + 1;
     ifs.seekg(0, std::ifstream::beg);
 
-    dataptr contents(new std::vector<std::size_t>(file_size));
+    vdataptr<std::size_t> contents(new std::vector<std::size_t>(file_size));
     std::vector<std::size_t>::iterator it;
     for(it = contents->begin(); ifs.good() && it != contents->end(); ++it)
     {
@@ -66,12 +66,12 @@ int convert_in_file(dataptr &data, const std::string src)
 
     contents->pop_back(); // Remove 0xff from end of data
     ifs.close();
-    data = std::move(contents);
+    vdata = std::move(contents);
 
     return 0;
 }
 
-int write_out_file(dataptr &data, const OutputName labels, const std::string dst)
+int write_out_file(vdataptr<std::size_t> &vdata, const OutputName labels, const std::string dst)
 {
     std::ofstream ofs;
     ofs.open(dst, std::ofstream::out | std::ofstream::trunc);
@@ -86,19 +86,19 @@ int write_out_file(dataptr &data, const OutputName labels, const std::string dst
     ss << "#define __" << labels.name << "_" << labels.ext << "_HPP\n\n";
     ss << "#include <cstddef>\n\n";
     ss << "unsigned char " << labels.name << "_" << labels.ext << "[] = {";
-    for(std::size_t i = 0; i < data->size(); ++i)
+    for(std::size_t i = 0; i < vdata->size(); ++i)
     {
         if(i % 12 == 0)
         {
             ss << "\n\t";
         }
-        ss << std::setfill('0') << std::setw(2) << "0x" << std::hex << (0xff & (*data)[i]) << ", ";
+        ss << std::setfill('0') << std::setw(2) << "0x" << std::hex << (0xff & (*vdata)[i]) << ", ";
         ofs.write(ss.str().c_str(), ss.str().length());
         ss.str(std::string());
         ss.clear();
     }
     ofs.seekp(static_cast<std::size_t>(ofs.tellp()) - 4); // Move from position (eof+1) to the position before ", " so we can remove the extra comma in the end
-    ss << "\n};\n\nstd::size_t " << labels.name << "_" << labels.ext << "_LEN = " << std::dec << data->size() << ";\n\n";
+    ss << "\n};\n\nstd::size_t " << labels.name << "_" << labels.ext << "_LEN = " << std::dec << vdata->size() << ";\n\n";
     ss << "#endif /* __" << labels.name << "_" << labels.ext << "_HPP */\n";
     ofs.write(ss.str().c_str(), ss.str().length());
     ofs.close();

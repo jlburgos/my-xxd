@@ -16,7 +16,7 @@
 #include <vector>
 
 #include <memory>
-using dataptr = std::unique_ptr<std::vector<std::size_t>>;
+template<typename T1> using vdataptr = std::unique_ptr<std::vector<T1>>;
 
 typedef struct
 {
@@ -25,7 +25,7 @@ typedef struct
 } OutputName;
 
 OutputName get_out_name(std::string src);
-int convert_in_file(dataptr &data, const std::string src);
-int write_out_file (dataptr &data, const OutputName labels, const std::string dst);
+int convert_in_file(vdataptr<std::size_t> &vdata, const std::string src);
+int write_out_file (vdataptr<std::size_t> &vdata, const OutputName labels, const std::string dst);
 
 #endif /* __MY_XXD_HPP */
