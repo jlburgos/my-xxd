@@ -47,19 +47,19 @@ int convert_in_file(dataptr &data, const std::string src)
     }
 
     ifs.seekg(0, std::ifstream::end);
-    unsigned int file_size = static_cast<unsigned int>(ifs.tellg()) + 1;
+    std::size_t file_size = static_cast<std::size_t>(ifs.tellg()) + 1;
     ifs.seekg(0, std::ifstream::beg);
 
-    dataptr contents(new std::vector<unsigned int>(file_size));
-    std::vector<unsigned int>::iterator it;
+    dataptr contents(new std::vector<std::size_t>(file_size));
+    std::vector<std::size_t>::iterator it;
     for(it = contents->begin(); ifs.good() && it != contents->end(); ++it)
     {
-        *it = static_cast<unsigned int>(ifs.get());
+        *it = static_cast<std::size_t>(ifs.get());
     }
 
     if(!ifs.eof())
     {
-        std::cout << "Failed to read in whole file! Stopped at position " << static_cast<unsigned int>(ifs.tellg()) << " with rdstate " << ifs.rdstate() << std::endl;
+        std::cout << "Failed to read in whole file! Stopped at position " << static_cast<std::size_t>(ifs.tellg()) << " with rdstate " << ifs.rdstate() << std::endl;
         ifs.close();
         return 1;
     }
@@ -84,6 +84,7 @@ int write_out_file(dataptr &data, const OutputName labels, const std::string dst
     std::stringstream ss;
     ss << "#ifndef __" << labels.name << "_" << labels.ext << "_HPP\n";
     ss << "#define __" << labels.name << "_" << labels.ext << "_HPP\n\n";
+    ss << "#include <cstddef>\n\n";
     ss << "unsigned char " << labels.name << "_" << labels.ext << "[] = {";
     for(std::size_t i = 0; i < data->size(); ++i)
     {
@@ -97,7 +98,7 @@ int write_out_file(dataptr &data, const OutputName labels, const std::string dst
         ss.clear();
     }
     ofs.seekp(static_cast<std::size_t>(ofs.tellp()) - 4); // Move from position (eof+1) to the position before ", " so we can remove the extra comma in the end
-    ss << "\n};\n\nunsigned int " << labels.name << "_" << labels.ext << "_LEN = " << std::dec << data->size() << ";\n\n";
+    ss << "\n};\n\nstd::size_t " << labels.name << "_" << labels.ext << "_LEN = " << std::dec << data->size() << ";\n\n";
     ss << "#endif /* __" << labels.name << "_" << labels.ext << "_HPP */\n";
     ofs.write(ss.str().c_str(), ss.str().length());
     ofs.close();

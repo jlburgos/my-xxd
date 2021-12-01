@@ -16,7 +16,7 @@
 #include <vector>
 
 #include <memory>
-using dataptr = std::unique_ptr<std::vector<unsigned int>>;
+using dataptr = std::unique_ptr<std::vector<std::size_t>>;
 
 typedef struct
 {
