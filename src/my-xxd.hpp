@@ -18,11 +18,11 @@
 #include <memory>
 template<typename T1> using vdataptr = std::unique_ptr<std::vector<T1>>;
 
-typedef struct
+struct OutputName
 {
     std::string name;
     std::string ext;
-} OutputName;
+};
 
 OutputName get_out_name(std::string src);
 int convert_in_file(vdataptr<std::size_t> &vdata, const std::string src);
