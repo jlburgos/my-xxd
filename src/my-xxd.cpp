@@ -30,8 +30,9 @@ OutputName get_out_name(std::string src)
     std::string name = src.substr(pos1+1, pos2-(pos1+1));
     std::string ext  = src.substr(pos2+1, src.length()-(pos2+1));
 
-    std::transform(name.begin(), name.end(), name.begin(), [](unsigned char ch){return std::toupper(ch);});
-    std::transform(ext.begin(),  ext.end(),  ext.begin(),  [](unsigned char ch){return std::toupper(ch);});
+    std::transform(name.begin(), name.end(), name.begin(), [](unsigned char ch) -> int {return std::toupper(ch);});
+    std::transform(name.begin(), name.end(), name.begin(), [](unsigned char ch) -> unsigned char {return ch == '.' ? '_' : ch;});
+    std::transform(ext.begin(),  ext.end(),  ext.begin(),  [](unsigned char ch) -> int {return std::toupper(ch);});
 
     return {name,ext};
 }
