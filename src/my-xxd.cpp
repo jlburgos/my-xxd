@@ -65,8 +65,8 @@ int convert_in_file(vdataptr<std::size_t> &vdata, const std::string src)
         return 1;
     }
 
-    contents->pop_back(); // Remove 0xff from end of data
     ifs.close();
+    contents->pop_back(); // Remove 0xff from end of data
     vdata = std::move(contents);
 
     return 0;
