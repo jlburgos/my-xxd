@@ -18,13 +18,14 @@
 #include <memory>
 using dataptr = std::unique_ptr<std::vector<unsigned int>>;
 
-struct out_name {
+typedef struct
+{
     std::string name;
     std::string ext;
-};
+} OutputName;
 
-struct out_name get_out_name(std::string src);
+OutputName get_out_name(std::string src);
 int convert_in_file(dataptr &data, const std::string src);
-int write_out_file (dataptr &data, const struct out_name labels, const std::string dst);
+int write_out_file (dataptr &data, const OutputName labels, const std::string dst);
 
 #endif /* __MY_XXD_HPP */

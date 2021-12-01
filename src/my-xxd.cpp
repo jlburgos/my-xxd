@@ -17,7 +17,7 @@
 
 #include "my-xxd.hpp"
 
-struct out_name get_out_name(std::string src)
+OutputName get_out_name(std::string src)
 {
     for(std::size_t i = 0; i < src.length(); ++i)
     {
@@ -71,7 +71,7 @@ int convert_in_file(dataptr &data, const std::string src)
     return 0;
 }
 
-int write_out_file(dataptr &data, const struct out_name labels, const std::string dst)
+int write_out_file(dataptr &data, const OutputName labels, const std::string dst)
 {
     std::ofstream ofs;
     ofs.open(dst, std::ofstream::out | std::ofstream::trunc);

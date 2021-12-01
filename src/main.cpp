@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     {
         return rc;
     }
-    struct out_name name = get_out_name(src);
+    OutputName name = get_out_name(src);
     return write_out_file(data, name, dst);
 }
 
