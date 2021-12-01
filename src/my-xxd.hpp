@@ -15,13 +15,16 @@
 #include <string>
 #include <vector>
 
+#include <memory>
+using dataptr = std::unique_ptr<std::vector<unsigned int>>;
+
 struct out_name {
     std::string name;
     std::string ext;
 };
 
 struct out_name get_out_name(std::string src);
-std::vector<unsigned int> convert_in_file(const std::string src);
-bool write_out_file(const std::vector<unsigned int> &values, const struct out_name labels, const std::string dst);
+int convert_in_file(dataptr &data, const std::string src);
+int write_out_file (dataptr &data, const struct out_name labels, const std::string dst);
 
 #endif /* __MY_XXD_HPP */
