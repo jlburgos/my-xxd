@@ -55,7 +55,7 @@ int convert_in_file(vdataptr<std::size_t> &vdata, const std::string src)
     std::vector<std::size_t>::iterator it;
     for(it = contents->begin(); ifs.good() && it != contents->end(); ++it)
     {
-        *it = static_cast<std::size_t>(ifs.get());
+        *it = std::move(static_cast<std::size_t>(ifs.get()));
     }
 
     if(!ifs.eof())
