@@ -43,7 +43,7 @@ int convert_in_file(vdataptr<std::size_t> &vdata, const std::string src)
     ifs.open(src, std::ifstream::in | std::ifstream::binary);
     if(!ifs.is_open())
     {
-        std::cout << "Failed to open src file " << src << std::endl;
+        std::cout << "Failed to open src file " << std::quoted(src) << std::endl;
         return 1;
     }
 
@@ -103,6 +103,6 @@ int write_out_file(vdataptr<std::size_t> &vdata, const OutputName labels, const 
     ss << "#endif /* __" << labels.name << "_" << labels.ext << "_HPP */\n";
     ofs.write(ss.str().c_str(), ss.str().length());
     ofs.close();
-    std::cout << "Generated out file: " << dst << std::endl;
+    std::cout << "Generated out file: " << std::quoted(dst) << std::endl;
     return 0;
 }
