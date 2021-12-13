@@ -14,9 +14,9 @@
 
 #include <string>
 #include <vector>
-
 #include <memory>
-template<typename T1> using vdataptr = std::unique_ptr<std::vector<T1>>;
+
+template<class T1> using vdataptr = std::unique_ptr<std::vector<T1>>;
 
 struct OutputName
 {
