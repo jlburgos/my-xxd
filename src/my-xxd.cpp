@@ -98,7 +98,7 @@ int write_out_file(vdataptr<std::size_t> &vdata, const OutputName labels, const 
         ss.str(std::string());
         ss.clear();
     }
-    ofs.seekp(static_cast<std::size_t>(ofs.tellp()) - 4); // Move from position (eof+1) to the position before ", " so we can remove the extra comma in the end
+    ofs.seekp(static_cast<std::size_t>(ofs.tellp()) - 5); // Move from position (eof+1) to the position before ", " so we can remove the extra comma in the end
     ss << "\n};\n\nstd::size_t " << labels.name << "_" << labels.ext << "_LEN = " << std::dec << vdata->size() << ";\n\n";
     ss << "#endif /* __" << labels.name << "_" << labels.ext << "_HPP */\n";
     ofs.write(ss.str().c_str(), ss.str().length());
