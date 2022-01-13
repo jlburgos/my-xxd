@@ -3,12 +3,16 @@
 ## Example output:
 ```
 $ make
+
 $ ./bin/my-xxd
 ./<prog> [src] [target]
+
 $ cat test.txt
 A sample file.
+
 $ ./bin/my-xxd test.txt test.txt.hpp
 Generated out file: "test.txt.hpp"
+
 $ cat test.txt.hpp
 #ifndef __TEST_TXT_HPP
 #define __TEST_TXT_HPP
