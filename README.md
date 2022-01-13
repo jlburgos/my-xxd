@@ -5,7 +5,7 @@
 $ make
 
 $ ./bin/my-xxd
-./<prog> [src] [target]
+./my-xxd [src] [target]
 
 $ cat test.txt
 A sample file.
