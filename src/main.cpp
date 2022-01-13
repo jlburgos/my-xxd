@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 {
     if(argc != 3)
     {
-        std::cout << "./<prog> [src] [target]" << std::endl;
+        std::cout << "./my-xxd [src] [target]" << std::endl;
         return 1;
     }
 
